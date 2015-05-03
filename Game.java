@@ -14,7 +14,7 @@ public class Game {
 
     public Button makeButton(int width, int height) {
         Button button = new Button();
-        button.setMinWidth(20);
+        button.setMinWidth(25);
         button.setText(minefield[height][width]);
         button.setOnAction(e -> System.out.println("Button Press"));
         return button;
