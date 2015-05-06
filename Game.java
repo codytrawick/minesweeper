@@ -1,10 +1,27 @@
 import java.util.Random;
 import javafx.scene.control.Button;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseButton;
 
 public class Game {
     String[][] minefield;
     int remainingMines;
     Random rand = new Random();
+
+    // private static class ButtonEvent {
+    //     static EventHandler<MouseEvent> makeAction(Button b) {
+    //         if (b.getText().equals("*")) {
+    //             return (eInput -> {
+    //                 MouseEvent e = (MouseEvent) eInput;
+    //                 System.out.println(e.getButton());
+    //             });
+    //         } else {
+    //             return (e -> System.out.println("Try again"));
+    //         }
+    //     }
+    // }
 
     public Game(int width, int height, int mineNum) {
         minefield = new String[height][width];
@@ -13,10 +30,31 @@ public class Game {
     }
 
     public Button makeButton(int width, int height) {
+        String content = minefield[height][width];
         Button button = new Button();
-        button.setMinWidth(25);
-        button.setText(minefield[height][width]);
-        button.setOnAction(e -> System.out.println("Button Press"));
+        button.setMinWidth(30);
+        button.setText(" ");
+        button.setOnMouseClicked(e -> {
+            if (e.getButton().equals(MouseButton.SECONDARY)) {
+                if (!button.getText().equals("?")) {
+                    button.setText("?");
+                } else {
+                    button.setText(" ");
+                }
+            }
+        });
+        button.setOnAction(e -> {
+            String text = button.getText();
+            if (text.equals("?")) {
+                //Nothing happens
+            } else if (content.equals("*")) {
+                button.setDisable(true);
+                endGame();
+            } else {
+                button.setDisable(true);
+                button.setText(content);
+            }
+        });
         return button;
     }
 
@@ -55,6 +93,10 @@ public class Game {
             }
         }
         return (count == 0) ? " " : Integer.toString(count);
+    }
+
+    private void endGame() {
+        System.out.println("You lose");
     }
 
 }
