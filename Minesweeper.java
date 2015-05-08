@@ -8,14 +8,14 @@ import javafx.scene.control.Button;
 
 public class Minesweeper extends Application {
     public void start(Stage stage) {
-        Game game = new Game(3, 3, 3);
+        Game game = new Game(30, 30, 100);
 
-        GridPane gp = new GridPane();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                gp.add(game.makeButton(i, j), i, j);
-            }
-        }
+        GridPane gp = game.getGridPane();
+        // for (int i = 0; i < game.getWidth(); i++) {
+        //     for (int j = 0; j < game.getHeight(); j++) {
+        //         gp.add(game.makeButton(i, j), i, j);
+        //     }
+        // }
 
         Scene scene = new Scene(gp);
         stage.setScene(scene);

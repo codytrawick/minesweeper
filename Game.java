@@ -4,11 +4,16 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.GridPane;
+import javafx.scene.Node;
 
 public class Game {
     String[][] minefield;
+    int width;
+    int height;
     int remainingMines;
     Random rand = new Random();
+    GridPane gp = new GridPane();
 
     // private static class ButtonEvent {
     //     static EventHandler<MouseEvent> makeAction(Button b) {
@@ -24,9 +29,24 @@ public class Game {
     // }
 
     public Game(int width, int height, int mineNum) {
+        this.width = width;
+        this.height = height;
         minefield = new String[height][width];
         this.remainingMines = mineNum;
         placeMines();
+        for (int i = 0; i < this.getWidth(); i++) {
+            for (int j = 0; j < this.getHeight(); j++) {
+                gp.add(makeButton(i, j), i, j);
+            }
+        }
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public Button makeButton(int width, int height) {
@@ -34,6 +54,7 @@ public class Game {
         Button button = new Button();
         button.setMinWidth(30);
         button.setText(" ");
+        button.setFocusTraversable(false);
         button.setOnMouseClicked(e -> {
             if (e.getButton().equals(MouseButton.SECONDARY)) {
                 if (!button.getText().equals("?")) {
@@ -50,12 +71,19 @@ public class Game {
             } else if (content.equals("*")) {
                 button.setDisable(true);
                 endGame();
+            } else if (content.equals(" ")) {
+                button.setDisable(true);
+                clickNeighbors(width, height);
             } else {
                 button.setDisable(true);
                 button.setText(content);
             }
         });
         return button;
+    }
+
+    public GridPane getGridPane() {
+        return gp;
     }
 
     private void placeMines() {
@@ -93,6 +121,17 @@ public class Game {
             }
         }
         return (count == 0) ? " " : Integer.toString(count);
+    }
+
+    private void clickNeighbors(int width, int height) {
+        for (Node node: gp.getChildren()) {
+            int nodeY = gp.getRowIndex(node);
+            int nodeX = gp.getColumnIndex(node);
+            if (Math.abs(width - nodeX) <= 1 && Math.abs(height - nodeY) <= 1
+                    && nodeX > -1 && nodeY > -1) {
+                ((Button) node).fire();
+            }
+        }
     }
 
     private void endGame() {
