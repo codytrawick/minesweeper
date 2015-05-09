@@ -70,6 +70,7 @@ public class Game {
                 //Nothing happens
             } else if (content.equals("*")) {
                 button.setDisable(true);
+                button.setText("*");
                 endGame();
             } else if (content.equals(" ")) {
                 button.setDisable(true);
@@ -127,15 +128,16 @@ public class Game {
         for (Node node: gp.getChildren()) {
             int nodeY = gp.getRowIndex(node);
             int nodeX = gp.getColumnIndex(node);
-            if (Math.abs(width - nodeX) <= 1 && Math.abs(height - nodeY) <= 1
-                    && nodeX > -1 && nodeY > -1) {
+            if (Math.abs(width - nodeX) <= 1 && Math.abs(height - nodeY) <= 1) {
                 ((Button) node).fire();
             }
         }
     }
 
     private void endGame() {
-        System.out.println("You lose");
+        for (Node node: gp.getChildren()) {
+            ((Button) node).fire();
+        }
     }
 
 }
