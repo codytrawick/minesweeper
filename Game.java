@@ -15,19 +15,6 @@ public class Game {
     Random rand = new Random();
     GridPane gp = new GridPane();
 
-    // private static class ButtonEvent {
-    //     static EventHandler<MouseEvent> makeAction(Button b) {
-    //         if (b.getText().equals("*")) {
-    //             return (eInput -> {
-    //                 MouseEvent e = (MouseEvent) eInput;
-    //                 System.out.println(e.getButton());
-    //             });
-    //         } else {
-    //             return (e -> System.out.println("Try again"));
-    //         }
-    //     }
-    // }
-
     public Game(int width, int height, int mineNum) {
         this.width = width;
         this.height = height;
